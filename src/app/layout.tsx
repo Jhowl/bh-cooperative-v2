@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Manrope, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import SiteFooter from "../components/SiteFooter";
@@ -44,6 +45,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${bodyFont.variable} ${displayFont.variable} antialiased`}>
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-CTVCGDG3KM"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-CTVCGDG3KM');`}
+        </Script>
         <div className="flex min-h-screen flex-col bg-snow text-charcoal">
           <SiteHeader />
           <main className="flex-1">{children}</main>
