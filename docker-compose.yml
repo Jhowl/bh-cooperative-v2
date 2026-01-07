@@ -1,0 +1,12 @@
+services:
+  bh-cooperative:
+    build: .
+    ports:
+      - "3005:3005"
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: production
+      PORT: 3005
+      HOSTNAME: 0.0.0.0
+    restart: unless-stopped
