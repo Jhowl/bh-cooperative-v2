@@ -159,7 +159,7 @@ const translations: Record<Locale, Translations> = {
         { href: "/contact", label: "Contact" },
         { href: "/register-provider", label: "Provider Registration" },
       ],
-      copyright: "(c) 2025 Brazilian Hands Cooperative",
+      copyright: "Brazilian Hands Cooperative",
     },
     home: {
       heroBadge: "Cleaning services",
@@ -395,7 +395,7 @@ const translations: Record<Locale, Translations> = {
         { href: "/contact", label: "Contato" },
         { href: "/register-provider", label: "Cadastro de Prestador" },
       ],
-      copyright: "(c) 2025 Brazilian Hands Cooperative",
+      copyright: "Brazilian Hands Cooperative",
     },
     home: {
       heroBadge: "Servicos de limpeza",

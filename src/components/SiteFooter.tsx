@@ -8,6 +8,7 @@ type SiteFooterProps = {
 
 export default function SiteFooter({ locale }: SiteFooterProps) {
   const t = getTranslations(locale);
+  const year = new Date().getFullYear();
 
   return (
     <footer className="bg-pine text-white">
@@ -38,7 +39,9 @@ export default function SiteFooter({ locale }: SiteFooterProps) {
             </Link>
           ))}
         </div>
-        <p className="text-xs text-white/60">{t.footer.copyright}</p>
+        <p className="text-xs text-white/60">
+          (c) {year} {t.footer.copyright}
+        </p>
       </div>
     </footer>
   );
