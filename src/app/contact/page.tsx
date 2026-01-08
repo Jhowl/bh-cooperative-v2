@@ -1,3 +1,5 @@
+import ContactForm from "./contact-form";
+
 export const metadata = {
   title: "Contact",
 };
@@ -23,44 +25,7 @@ export default function ContactPage() {
             <p>Hours: Monday – Friday, 8:30am – 6pm</p>
           </div>
         </div>
-        <form className="space-y-4 rounded-3xl border border-mist bg-white/70 p-6 shadow-sm">
-          <div>
-            <label className="text-xs font-semibold uppercase tracking-[0.2em] text-charcoal/60">
-              Name
-            </label>
-            <input
-              className="mt-2 w-full rounded-2xl border border-mist bg-white px-4 py-2 text-sm text-charcoal"
-              placeholder="Your name"
-              type="text"
-            />
-          </div>
-          <div>
-            <label className="text-xs font-semibold uppercase tracking-[0.2em] text-charcoal/60">
-              Email
-            </label>
-            <input
-              className="mt-2 w-full rounded-2xl border border-mist bg-white px-4 py-2 text-sm text-charcoal"
-              placeholder="you@email.com"
-              type="email"
-            />
-          </div>
-          <div>
-            <label className="text-xs font-semibold uppercase tracking-[0.2em] text-charcoal/60">
-              How can we help?
-            </label>
-            <textarea
-              className="mt-2 w-full rounded-2xl border border-mist bg-white px-4 py-2 text-sm text-charcoal"
-              placeholder="Tell us about your needs"
-              rows={4}
-            />
-          </div>
-          <button
-            type="button"
-            className="w-full rounded-full bg-pine px-4 py-2 text-sm font-semibold text-white"
-          >
-            Send message
-          </button>
-        </form>
+        <ContactForm />
       </div>
     </div>
   );

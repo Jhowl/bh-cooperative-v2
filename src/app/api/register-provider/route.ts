@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { rateLimit } from "../../../lib/rate-limit";
 import { getSupabaseServerClient } from "../../../lib/supabase";
 import { providerRegistrationSchema } from "../../../lib/validation";
+import { sendWebhook } from "../../../lib/webhook";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const ALLOWED_FILE_TYPES = [
@@ -111,11 +112,29 @@ export async function POST(request: NextRequest) {
   });
 
   if (insertError) {
+    await sendWebhook({
+      type: "provider_registration",
+      status: "error",
+      error: insertError.message,
+      data: {
+        ...parsed.data,
+        fileUrl,
+      },
+    });
     return NextResponse.json(
       { error: "Unable to save your registration at the moment." },
       { status: 500 },
     );
   }
+
+  await sendWebhook({
+    type: "provider_registration",
+    status: "success",
+    data: {
+      ...parsed.data,
+      fileUrl,
+    },
+  });
 
   return NextResponse.json({ success: true });
 }
