@@ -1,5 +1,5 @@
-import ContactForm from "../../app/contact/contact-form";
 import { getTranslations, type Locale } from "../../lib/i18n";
+import HeroRequestForm from "../HeroRequestForm";
 
 type ContactPageContentProps = {
   locale: Locale;
@@ -25,7 +25,12 @@ export default function ContactPageContent({ locale }: ContactPageContentProps) 
             <p>{t.contact.infoHours}</p>
           </div>
         </div>
-        <ContactForm locale={locale} />
+        <div className="relative z-20 w-full rounded-3xl bg-white p-6 shadow-lg">
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-charcoal/50">
+            {t.home.requestTitle}
+          </p>
+          <HeroRequestForm locale={locale} />
+        </div>
       </div>
     </div>
   );
