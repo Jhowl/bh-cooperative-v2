@@ -1,25 +1,25 @@
 "use client";
 
 import { useMemo, useState } from "react";
-
-const services = [
-  "Heavy Cleaning",
-  "Regular Cleaning",
-  "Gardening",
-  "Painting",
-  "Handyman (minor repairs)",
-];
+import { getTranslations, type Locale } from "../../lib/i18n";
 
 type SubmissionState = "idle" | "submitting" | "success" | "error";
 
-export default function ProviderRegistrationForm() {
+type ProviderRegistrationFormProps = {
+  locale: Locale;
+};
+
+export default function ProviderRegistrationForm({
+  locale,
+}: ProviderRegistrationFormProps) {
   const [status, setStatus] = useState<SubmissionState>("idle");
   const [message, setMessage] = useState<string | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
+  const t = useMemo(() => getTranslations(locale), [locale]);
 
   const defaultAvailability = useMemo(
-    () => "Weekdays 8am-5pm, weekends flexible",
-    [],
+    () => t.forms.provider.availabilityDefault,
+    [t],
   );
 
   function formatPhone(value: string) {
@@ -44,50 +44,58 @@ export default function ProviderRegistrationForm() {
 
       if (!response.ok) {
         setStatus("error");
-        setMessage(payload?.error ?? "Something went wrong. Please try again.");
+        setMessage(payload?.error ?? t.forms.provider.error);
         return;
       }
 
       setStatus("success");
-      setMessage("Thank you for registering! We will be in touch soon.");
+      setMessage(t.forms.provider.success);
     } catch {
       setStatus("error");
-      setMessage("Unable to submit at the moment. Please try again later.");
+      setMessage(t.forms.provider.error);
     }
+  }
+
+  async function handleFormSubmit(
+    event: React.FormEvent<HTMLFormElement>,
+  ) {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    await handleSubmit(formData);
   }
 
   return (
     <form
-      action={handleSubmit}
+      onSubmit={handleFormSubmit}
       className="grid gap-6 rounded-3xl border border-mist bg-white/70 p-6 shadow-sm"
     >
       <div className="grid gap-4 md:grid-cols-2">
         <label className="space-y-2 text-sm">
           <span className="text-xs font-semibold uppercase tracking-[0.2em] text-charcoal/60">
-            Full name
+            {t.forms.provider.fullName}
           </span>
           <input
             name="name"
             required
             className="w-full rounded-2xl border border-mist bg-white px-4 py-2 text-sm text-charcoal"
-            placeholder="Maria Oliveira"
+            placeholder={t.forms.provider.fullNamePlaceholder}
           />
         </label>
         <label className="space-y-2 text-sm">
           <span className="text-xs font-semibold uppercase tracking-[0.2em] text-charcoal/60">
-            Email
+            {t.forms.provider.email}
           </span>
           <input
             name="email"
             type="email"
             required
             className="w-full rounded-2xl border border-mist bg-white px-4 py-2 text-sm text-charcoal"
-            placeholder="maria@email.com"
+            placeholder={t.forms.provider.emailPlaceholder}
           />
         </label>
         <label className="space-y-2 text-sm">
           <span className="text-xs font-semibold uppercase tracking-[0.2em] text-charcoal/60">
-            Phone
+            {t.forms.provider.phone}
           </span>
           <input
             name="phone"
@@ -96,7 +104,7 @@ export default function ProviderRegistrationForm() {
             pattern="^\+?[0-9\\s().-]{7,}$"
             title="Enter a valid phone number"
             className="w-full rounded-2xl border border-mist bg-white px-4 py-2 text-sm text-charcoal"
-            placeholder="(617) 555-0132"
+            placeholder={t.forms.provider.phonePlaceholder}
             onInput={(event) => {
               event.currentTarget.value = formatPhone(event.currentTarget.value);
             }}
@@ -104,31 +112,31 @@ export default function ProviderRegistrationForm() {
         </label>
         <label className="space-y-2 text-sm">
           <span className="text-xs font-semibold uppercase tracking-[0.2em] text-charcoal/60">
-            City
+            {t.forms.provider.city}
           </span>
           <input
             name="city"
             required
             className="w-full rounded-2xl border border-mist bg-white px-4 py-2 text-sm text-charcoal"
-            placeholder="Cork, Ireland"
+            placeholder={t.forms.provider.cityPlaceholder}
           />
         </label>
       </div>
 
       <div className="space-y-3">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-charcoal/60">
-          Services offered
+          {t.forms.provider.servicesTitle}
         </p>
         <div className="grid gap-3 md:grid-cols-2">
-          {services.map((service) => (
-            <label key={service} className="flex items-center gap-2 text-sm">
+          {t.forms.provider.services.map((service) => (
+            <label key={service.value} className="flex items-center gap-2 text-sm">
               <input
                 type="checkbox"
                 name="services"
-                value={service}
+                value={service.value}
                 className="h-4 w-4 rounded border-mist text-pine"
               />
-              <span>{service}</span>
+              <span>{service.label}</span>
             </label>
           ))}
         </div>
@@ -136,7 +144,7 @@ export default function ProviderRegistrationForm() {
 
       <label className="space-y-2 text-sm">
         <span className="text-xs font-semibold uppercase tracking-[0.2em] text-charcoal/60">
-          Availability
+          {t.forms.provider.availability}
         </span>
         <textarea
           name="availability"
@@ -147,7 +155,7 @@ export default function ProviderRegistrationForm() {
 
       <label className="space-y-2 text-sm">
         <span className="text-xs font-semibold uppercase tracking-[0.2em] text-charcoal/60">
-          Upload resume or certifications
+          {t.forms.provider.upload}
         </span>
         <div className="flex flex-col gap-2 rounded-2xl border border-mist bg-white px-4 py-3">
           <input
@@ -165,10 +173,10 @@ export default function ProviderRegistrationForm() {
             htmlFor="provider-file"
             className="inline-flex w-fit cursor-pointer rounded-full bg-sun px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-charcoal"
           >
-            Choose file
+            {t.forms.provider.chooseFile}
           </label>
           <span className="text-xs text-charcoal/60">
-            {fileName ?? "No file selected"}
+            {fileName ?? t.forms.provider.noFile}
           </span>
         </div>
       </label>
@@ -181,7 +189,9 @@ export default function ProviderRegistrationForm() {
         {status === "submitting" && (
           <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
         )}
-        {status === "submitting" ? "Submitting..." : "Submit registration"}
+        {status === "submitting"
+          ? t.forms.provider.submitting
+          : t.forms.provider.submit}
       </button>
 
       {message && (

@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { Manrope, Playfair_Display } from "next/font/google";
 import "./globals.css";
-import SiteFooter from "../components/SiteFooter";
-import SiteHeader from "../components/SiteHeader";
+import LocaleShell from "../components/LocaleShell";
 
 const bodyFont = Manrope({
   variable: "--font-body",
@@ -56,11 +55,7 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-CTVCGDG3KM');`}
         </Script>
-        <div className="flex min-h-screen flex-col bg-snow text-charcoal">
-          <SiteHeader />
-          <main className="flex-1">{children}</main>
-          <SiteFooter />
-        </div>
+        <LocaleShell>{children}</LocaleShell>
       </body>
     </html>
   );

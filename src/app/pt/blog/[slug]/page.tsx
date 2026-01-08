@@ -1,5 +1,5 @@
-import { getAllPosts, getPostBySlug } from "../../../lib/blog";
-import BlogPostPageContent from "../../../components/pages/blog-post-page";
+import { getAllPosts, getPostBySlug } from "../../../../lib/blog";
+import BlogPostPageContent from "../../../../components/pages/blog-post-page";
 
 type BlogPostPageProps = {
   params: { slug: string };
@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
 
   if (!post) {
     return {
-      title: "Post not found",
+      title: "Post nao encontrado",
     };
   }
 
@@ -26,6 +26,8 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
   };
 }
 
-export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  return <BlogPostPageContent locale="en" slug={params.slug} />;
+export default async function PortugueseBlogPostPage({
+  params,
+}: BlogPostPageProps) {
+  return <BlogPostPageContent locale="pt" slug={params.slug} />;
 }

@@ -1,12 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { getTranslations, type Locale } from "../../lib/i18n";
 
 type SubmissionState = "idle" | "submitting" | "success" | "error";
 
-export default function ContactForm() {
+type ContactFormProps = {
+  locale: Locale;
+};
+
+export default function ContactForm({ locale }: ContactFormProps) {
   const [status, setStatus] = useState<SubmissionState>("idle");
   const [message, setMessage] = useState<string | null>(null);
+  const t = useMemo(() => getTranslations(locale), [locale]);
 
   async function handleSubmit(formData: FormData) {
     setStatus("submitting");
@@ -22,55 +28,63 @@ export default function ContactForm() {
 
       if (!response.ok) {
         setStatus("error");
-        setMessage(payload?.error ?? "Something went wrong. Please try again.");
+        setMessage(payload?.error ?? t.forms.contact.error);
         return;
       }
 
       setStatus("success");
-      setMessage("Thanks! We will reply within one business day.");
+      setMessage(t.forms.contact.success);
     } catch {
       setStatus("error");
-      setMessage("Unable to submit at the moment. Please try again later.");
+      setMessage(t.forms.contact.error);
     }
+  }
+
+  async function handleFormSubmit(
+    event: React.FormEvent<HTMLFormElement>,
+  ) {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    await handleSubmit(formData);
   }
 
   return (
     <form
-      action={handleSubmit}
+      onSubmit={handleFormSubmit}
       className="space-y-4 rounded-3xl border border-mist bg-white/70 p-6 shadow-sm"
     >
       <div>
         <label className="text-xs font-semibold uppercase tracking-[0.2em] text-charcoal/60">
-          Name
+          {t.forms.contact.name}
         </label>
         <input
           name="name"
           className="mt-2 w-full rounded-2xl border border-mist bg-white px-4 py-2 text-sm text-charcoal"
-          placeholder="Your name"
+          placeholder={t.forms.contact.namePlaceholder}
           type="text"
           required
         />
       </div>
       <div>
         <label className="text-xs font-semibold uppercase tracking-[0.2em] text-charcoal/60">
-          Email
+          {t.forms.contact.email}
         </label>
         <input
           name="email"
           className="mt-2 w-full rounded-2xl border border-mist bg-white px-4 py-2 text-sm text-charcoal"
-          placeholder="you@email.com"
+          placeholder={t.forms.contact.emailPlaceholder}
           type="email"
           required
         />
       </div>
       <div>
         <label className="text-xs font-semibold uppercase tracking-[0.2em] text-charcoal/60">
-          How can we help?
+          {t.forms.contact.message}
         </label>
         <textarea
           name="message"
           className="mt-2 w-full rounded-2xl border border-mist bg-white px-4 py-2 text-sm text-charcoal"
-          placeholder="Tell us about your needs"
+          placeholder={t.forms.contact.messagePlaceholder}
           rows={4}
           required
         />
@@ -80,7 +94,9 @@ export default function ContactForm() {
         disabled={status === "submitting"}
         className="w-full rounded-full bg-pine px-4 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:bg-pine/70"
       >
-        {status === "submitting" ? "Sending..." : "Send message"}
+        {status === "submitting"
+          ? t.forms.contact.submitting
+          : t.forms.contact.submit}
       </button>
       {message && (
         <div

@@ -21,13 +21,27 @@ export async function POST(request: NextRequest) {
   const formData = await request.formData();
 
   const data = {
-    name: formData.get("name"),
-    email: formData.get("email"),
-    phone: formData.get("phone"),
-    service: formData.get("service"),
-    otherService: formData.get("otherService"),
-    zipcode: formData.get("zipcode"),
-    referralSource: formData.get("referralSource"),
+    name: typeof formData.get("name") === "string" ? formData.get("name") : "",
+    email:
+      typeof formData.get("email") === "string" ? formData.get("email") : "",
+    phone:
+      typeof formData.get("phone") === "string" ? formData.get("phone") : "",
+    service:
+      typeof formData.get("service") === "string"
+        ? formData.get("service")
+        : "",
+    otherService:
+      typeof formData.get("otherService") === "string"
+        ? formData.get("otherService")
+        : "",
+    zipcode:
+      typeof formData.get("zipcode") === "string"
+        ? formData.get("zipcode")
+        : "",
+    referralSource:
+      typeof formData.get("referralSource") === "string"
+        ? formData.get("referralSource")
+        : "",
   };
 
   const parsed = serviceRequestSchema.safeParse(data);

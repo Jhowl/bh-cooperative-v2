@@ -1,22 +1,20 @@
 "use client";
 
-import { useState } from "react";
-
-const services = [
-  "Heavy Cleaning",
-  "Regular Cleaning",
-  "Gardening",
-  "Painting",
-  "Handyman (minor repairs)",
-  "Other",
-];
+import { useEffect, useMemo, useRef, useState } from "react";
+import { getTranslations, type Locale } from "../lib/i18n";
 
 type SubmissionState = "idle" | "submitting" | "success" | "error";
 
-export default function HeroRequestForm() {
+type HeroRequestFormProps = {
+  locale: Locale;
+};
+
+export default function HeroRequestForm({ locale }: HeroRequestFormProps) {
   const [status, setStatus] = useState<SubmissionState>("idle");
   const [message, setMessage] = useState<string | null>(null);
   const [selectedService, setSelectedService] = useState("");
+  const serviceSelectRef = useRef<HTMLSelectElement>(null);
+  const t = useMemo(() => getTranslations(locale), [locale]);
 
   function formatPhone(value: string) {
     const sanitized = value.replace(/[^0-9+()\s.-]/g, "");
@@ -45,25 +43,39 @@ export default function HeroRequestForm() {
       }
 
       setStatus("success");
-      setMessage("Thanks! We will contact you shortly to confirm details.");
+      setMessage(t.forms.request.success);
     } catch {
       setStatus("error");
-      setMessage("Unable to submit at the moment. Please try again later.");
+      setMessage(t.forms.request.error);
     }
   }
 
+  async function handleFormSubmit(
+    event: React.FormEvent<HTMLFormElement>,
+  ) {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    await handleSubmit(formData);
+  }
+
+  useEffect(() => {
+    if (serviceSelectRef.current?.value) {
+      setSelectedService(serviceSelectRef.current.value);
+    }
+  }, []);
+
   return (
-    <form action={handleSubmit} className="mt-4 space-y-3 text-sm">
+    <form onSubmit={handleFormSubmit} className="mt-4 space-y-3 text-sm">
       <input
         name="name"
         className="w-full rounded-2xl border border-mist bg-snow px-4 py-2"
-        placeholder="Your name"
+        placeholder={t.forms.request.name}
         required
       />
       <input
         name="phone"
         className="w-full rounded-2xl border border-mist bg-snow px-4 py-2"
-        placeholder="Your phone number"
+        placeholder={t.forms.request.phone}
         type="tel"
         required
         pattern="^\+?[0-9\s().-]{7,}$"
@@ -75,7 +87,7 @@ export default function HeroRequestForm() {
       <input
         name="email"
         className="w-full rounded-2xl border border-mist bg-snow px-4 py-2"
-        placeholder="Your email"
+        placeholder={t.forms.request.email}
         type="email"
         required
       />
@@ -83,13 +95,14 @@ export default function HeroRequestForm() {
         name="service"
         className="w-full rounded-2xl border border-mist bg-snow px-4 py-2"
         required
-        value={selectedService}
+        defaultValue=""
+        ref={serviceSelectRef}
         onChange={(event) => setSelectedService(event.target.value)}
       >
-        <option value="">Choose a service</option>
-        {services.map((service) => (
-          <option key={service} value={service}>
-            {service}
+        <option value="">{t.forms.request.servicePlaceholder}</option>
+        {t.forms.request.services.map((service) => (
+          <option key={service.value} value={service.value}>
+            {service.label}
           </option>
         ))}
       </select>
@@ -97,14 +110,14 @@ export default function HeroRequestForm() {
         <textarea
           name="otherService"
           className="min-h-[96px] w-full rounded-2xl border border-mist bg-snow px-4 py-2"
-          placeholder="Tell us about the service you need"
+          placeholder={t.forms.request.otherPlaceholder}
           required
         />
       ) : null}
       <input
         name="zipcode"
         className="w-full rounded-2xl border border-mist bg-snow px-4 py-2"
-        placeholder="Zipcode"
+        placeholder={t.forms.request.zipcode}
         required
       />
       <select
@@ -112,10 +125,12 @@ export default function HeroRequestForm() {
         className="w-full rounded-2xl border border-mist bg-snow px-4 py-2"
         required
       >
-        <option value="">How did you find our company</option>
-        <option>Referral</option>
-        <option>Google search</option>
-        <option>Social media</option>
+        <option value="">{t.forms.request.referralPlaceholder}</option>
+        {t.forms.request.referralOptions.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
       </select>
       <label className="flex items-center gap-2 text-[11px] text-charcoal/70">
         <input
@@ -124,17 +139,21 @@ export default function HeroRequestForm() {
           required
           className="h-4 w-4 rounded border-mist"
         />
-        I agree to the terms and conditions
+        {t.forms.request.terms}
       </label>
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="flex w-full items-center justify-center gap-2 rounded-full bg-sun px-4 py-2 text-sm font-semibold text-charcoal disabled:cursor-not-allowed disabled:opacity-70"
+        className={`flex w-full items-center justify-center gap-2 rounded-full bg-sun px-4 py-2 text-sm font-semibold text-charcoal disabled:cursor-not-allowed disabled:opacity-70 ${
+          status === "submitting" ? "animate-pulse" : ""
+        }`}
       >
         {status === "submitting" && (
           <span className="h-4 w-4 animate-spin rounded-full border-2 border-charcoal/40 border-t-charcoal" />
         )}
-        {status === "submitting" ? "Sending..." : "Request Services"}
+        {status === "submitting"
+          ? t.forms.request.submitting
+          : t.forms.request.submit}
       </button>
       {message && (
         <div
