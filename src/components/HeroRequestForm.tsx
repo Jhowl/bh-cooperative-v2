@@ -19,13 +19,11 @@ export default function HeroRequestForm() {
   const [selectedService, setSelectedService] = useState("");
 
   function formatPhone(value: string) {
-    const digits = value.replace(/\D/g, "").slice(0, 10);
-    const parts = [];
-    if (digits.length > 0) parts.push(`(${digits.slice(0, 3)}`);
-    if (digits.length >= 4) parts[0] += ")";
-    if (digits.length >= 4) parts.push(` ${digits.slice(3, 6)}`);
-    if (digits.length >= 7) parts.push(`-${digits.slice(6, 10)}`);
-    return parts.join("");
+    const sanitized = value.replace(/[^0-9+()\s.-]/g, "");
+    const withoutExtraPlus = sanitized.replace(/\+(?=.)/g, "");
+    const hasLeadingPlus = sanitized.trimStart().startsWith("+");
+    const normalized = hasLeadingPlus ? `+${withoutExtraPlus}` : withoutExtraPlus;
+    return normalized.slice(0, 20);
   }
 
   async function handleSubmit(formData: FormData) {
