@@ -21,6 +21,9 @@ create table if not exists public.service_providers (
     to service_role
     with check (true);
 
+  create unique index if not exists service_providers_email_unique
+    on public.service_providers (email);
+
   insert into storage.buckets (id, name, public)
   values ('provider-files', 'provider-files', true)
   on conflict (id) do nothing;

@@ -58,6 +58,26 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  const { data: existingProvider, error: lookupError } = await supabase
+    .from("service_providers")
+    .select("id")
+    .eq("email", parsed.data.email)
+    .maybeSingle();
+
+  if (lookupError) {
+    return NextResponse.json(
+      { error: "Unable to validate your email at the moment." },
+      { status: 500 },
+    );
+  }
+
+  if (existingProvider) {
+    return NextResponse.json(
+      { error: "This email is already registered." },
+      { status: 409 },
+    );
+  }
+
   let fileUrl: string | null = null;
   const file = formData.get("file");
 

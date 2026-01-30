@@ -217,7 +217,7 @@ export default function HomePageContent({ locale }: HomePageContentProps) {
                 </p>
               </div>
               <p className="mt-4 text-sm text-charcoal/80">
-                "{testimonial.quote}"
+                &ldquo;{testimonial.quote}&rdquo;
               </p>
             </div>
           ))}

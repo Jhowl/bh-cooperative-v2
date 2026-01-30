@@ -11,6 +11,11 @@ type LocaleShellProps = {
 
 export default function LocaleShell({ children }: LocaleShellProps) {
   const pathname = usePathname() ?? "/";
+
+  if (pathname.startsWith("/admin")) {
+    return <div className="min-h-screen bg-snow text-charcoal">{children}</div>;
+  }
+
   const locale: Locale = pathname.startsWith("/pt") ? "pt" : "en";
 
   return (
