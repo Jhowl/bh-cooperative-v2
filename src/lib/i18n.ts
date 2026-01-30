@@ -165,12 +165,13 @@ const translations: Record<Locale, Translations> = {
       heroBadge: "Cleaning services",
       heroTitle: "Brazilian Hands Expert Cleaning Services Await",
       heroIntro:
-        "Professional, reliable cleaning teams supporting homes, offices, and community spaces across the region.",
+        "Professional, reliable teams supporting homes, offices, and community spaces across Ireland, including women's beauty services.",
       heroServices: [
         "Heavy Cleaning",
         "Regular Cleaning",
         "Gardening",
         "Painting",
+        "Women's beauty",
         "Handyman (minor repairs)",
       ],
       heroPrimaryCta: "Explore Services",
@@ -179,7 +180,7 @@ const translations: Record<Locale, Translations> = {
       aboutBadge: "About services",
       aboutTitle: "Experience expert cleaning services.",
       aboutCopy:
-        "At BH Cooperative, we believe in providing exceptional service with a personal touch. Founded by a group of hardworking Brazilians in Ireland, our mission is simple: to make your life easier by offering high-quality services in areas like cleaning, gardening, painting, and much more. Whether its a one-time job or regular support, were committed to delivering excellence in everything we do.",
+        "At BH Cooperative, we believe in providing exceptional service with a personal touch. Founded by a group of hardworking Brazilians in Ireland, our mission is simple: to make your life easier by offering high-quality services in areas like cleaning, gardening, women's beauty, and more. Whether its a one-time job or regular support, were committed to delivering excellence in everything we do.",
       aboutCta: "Learn More",
       whyBadge: "Why choose us",
       whyTitle: "Reasons to choose Brazilian Hands.",
@@ -260,11 +261,15 @@ const translations: Record<Locale, Translations> = {
       badge: "Services",
       title: "Built around real-life needs, delivered by trusted members.",
       intro:
-        "We collaborate with every client to tailor scope, schedule, and care standards. Services are available as one-time visits or recurring engagements.",
+        "We collaborate with every client in Ireland to tailor scope, schedule, and care standards. Services are available as one-time visits or recurring engagements.",
       groups: [
         {
           title: "Cleaning Services",
           items: ["Heavy cleaning", "Regular cleaning", "Post-visit detailing"],
+        },
+        {
+          title: "Beauty Services",
+          items: ["Women's beauty", "Event-ready styling", "Personal care"],
         },
         {
           title: "Outdoor Care",
@@ -316,6 +321,7 @@ const translations: Record<Locale, Translations> = {
           { value: "Regular Cleaning", label: "Regular Cleaning" },
           { value: "Gardening", label: "Gardening" },
           { value: "Painting", label: "Painting" },
+          { value: "Womens Beauty", label: "Women's beauty" },
           { value: "Handyman (minor repairs)", label: "Handyman (minor repairs)" },
           { value: "Other", label: "Other" },
         ],
@@ -348,6 +354,7 @@ const translations: Record<Locale, Translations> = {
           { value: "Regular Cleaning", label: "Regular Cleaning" },
           { value: "Gardening", label: "Gardening" },
           { value: "Painting", label: "Painting" },
+          { value: "Womens Beauty", label: "Women's beauty" },
           { value: "Handyman (minor repairs)", label: "Handyman (minor repairs)" },
         ],
         availability: "Availability",
@@ -401,12 +408,13 @@ const translations: Record<Locale, Translations> = {
       heroBadge: "Servicos de limpeza",
       heroTitle: "Servicos de limpeza da Brazilian Hands",
       heroIntro:
-        "Equipes profissionais e confiaveis para casas, escritorios e espacos comunitarios.",
+        "Equipes profissionais e confiaveis para casas, escritorios e espacos comunitarios na Irlanda, incluindo beleza feminina.",
       heroServices: [
         "Limpeza pesada",
         "Limpeza regular",
         "Jardinagem",
         "Pintura",
+        "Beleza feminina",
         "Marido de aluguel (pequenos reparos)",
       ],
       heroPrimaryCta: "Ver servicos",
@@ -415,7 +423,7 @@ const translations: Record<Locale, Translations> = {
       aboutBadge: "Sobre os servicos",
       aboutTitle: "Experiencia com limpeza especializada.",
       aboutCopy:
-        "Na BH Cooperative, acreditamos em um atendimento excelente e pessoal. Fundada por brasileiros na Irlanda, nossa missao e facilitar sua vida com servicos de qualidade em limpeza, jardinagem, pintura e muito mais. Seja um trabalho unico ou suporte recorrente, entregamos excelencia.",
+        "Na BH Cooperative, acreditamos em um atendimento excelente e pessoal. Fundada por brasileiros na Irlanda, nossa missao e facilitar sua vida com servicos de qualidade em limpeza, jardinagem, beleza feminina e muito mais. Seja um trabalho unico ou suporte recorrente, entregamos excelencia.",
       aboutCta: "Saiba mais",
       whyBadge: "Por que escolher",
       whyTitle: "Razoes para escolher a Brazilian Hands.",
@@ -495,11 +503,15 @@ const translations: Record<Locale, Translations> = {
       badge: "Servicos",
       title: "Criados para necessidades reais, com membros confiaveis.",
       intro:
-        "Trabalhamos com cada cliente para ajustar escopo, horario e padroes. Atendemos visitas unicas ou contratos recorrentes.",
+        "Trabalhamos com cada cliente na Irlanda para ajustar escopo, horario e padroes. Atendemos visitas unicas ou contratos recorrentes.",
       groups: [
         {
           title: "Limpeza",
           items: ["Limpeza pesada", "Limpeza regular", "Detalhamento apos visita"],
+        },
+        {
+          title: "Servicos de beleza",
+          items: ["Beleza feminina", "Preparacao para eventos", "Cuidados pessoais"],
         },
         {
           title: "Area externa",
@@ -551,6 +563,7 @@ const translations: Record<Locale, Translations> = {
           { value: "Regular Cleaning", label: "Limpeza regular" },
           { value: "Gardening", label: "Jardinagem" },
           { value: "Painting", label: "Pintura" },
+          { value: "Womens Beauty", label: "Beleza feminina" },
           {
             value: "Handyman (minor repairs)",
             label: "Marido de aluguel (pequenos reparos)",
@@ -586,6 +599,7 @@ const translations: Record<Locale, Translations> = {
           { value: "Regular Cleaning", label: "Limpeza regular" },
           { value: "Gardening", label: "Jardinagem" },
           { value: "Painting", label: "Pintura" },
+          { value: "Womens Beauty", label: "Beleza feminina" },
           {
             value: "Handyman (minor repairs)",
             label: "Marido de aluguel (pequenos reparos)",
