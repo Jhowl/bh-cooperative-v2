@@ -9,4 +9,8 @@ services:
       NODE_ENV: production
       PORT: 3005
       HOSTNAME: 0.0.0.0
+      NEXT_TELEMETRY_DISABLED: 1
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+      ADMIN_SESSION_SECRET: ${ADMIN_SESSION_SECRET:-}
+      ADMIN_SESSION_MAX_AGE_SECONDS: ${ADMIN_SESSION_MAX_AGE_SECONDS:-}
     restart: unless-stopped

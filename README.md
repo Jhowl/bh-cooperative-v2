@@ -1,24 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
 ## Getting Started
 
-First, run the development server:
+Install dependencies and run the dev server:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Admin Dashboard
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The manager-only admin dashboard lives at:
+
+- `http://localhost:3000/admin` (dev)
+- `http://localhost:3005/admin` (Docker)
+
+It shows:
+
+- Provider registrations (`service_providers`)
+- Service requests (`service_requests`)
+
+Filters:
+
+- `name`: filters by name/email
+- `service`: filters by requested service
+
+Example: `http://localhost:3000/admin?name=maria&service=cleaning`
+
+## Environment Variables
+
+Copy `.env.example` to `.env` and fill in values.
+
+Required (server-side):
+
+- `SUPABASE_URL`
+- `SUPABASE_SERVICE_ROLE_KEY`
+
+Admin (site manager only):
+
+- `ADMIN_PASSWORD`
+- `ADMIN_SESSION_SECRET`
+- Optional: `ADMIN_SESSION_MAX_AGE_SECONDS` (defaults to 30 days)
+
+## Docker
+
+This project listens on port `3005` in Docker.
+
+```bash
+docker compose up --build
+```
+
+Make sure your `.env` exists before starting Docker.
 
 ## Supabase SQL Configuration
 
@@ -47,6 +80,9 @@ create policy "service_role_inserts_only"
   for insert
   to service_role
   with check (true);
+
+create unique index if not exists service_providers_email_unique
+  on public.service_providers (email);
 
 insert into storage.buckets (id, name, public)
 values ('provider-files', 'provider-files', true)
