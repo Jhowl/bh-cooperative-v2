@@ -57,6 +57,27 @@ async function signHmacSha256(secret: string, message: string) {
   return new Uint8Array(signature);
 }
 
+function normalizeEnvSecret(value: string | undefined) {
+  if (typeof value !== "string") return undefined;
+  const trimmed = value.trim();
+  if (!trimmed) return undefined;
+
+  if (
+    (trimmed.startsWith('"') && trimmed.endsWith('"')) ||
+    (trimmed.startsWith("'") && trimmed.endsWith("'"))
+  ) {
+    const unquoted = trimmed.slice(1, -1).trim();
+    return unquoted || undefined;
+  }
+
+  return trimmed;
+}
+
+export function normalizeAdminPasswordInput(value: string | undefined) {
+  if (typeof value !== "string") return "";
+  return value.trim();
+}
+
 export async function createAdminSessionToken(options: {
   secret: string;
   issuedAtSeconds?: number;
@@ -108,8 +129,8 @@ export async function verifyAdminSessionToken(options: {
 }
 
 export function getAdminSessionConfig() {
-  const secret = process.env.ADMIN_SESSION_SECRET;
-  const password = process.env.ADMIN_PASSWORD;
+  const secret = normalizeEnvSecret(process.env.ADMIN_SESSION_SECRET);
+  const password = normalizeEnvSecret(process.env.ADMIN_PASSWORD);
 
   const maxAgeSeconds = Number(process.env.ADMIN_SESSION_MAX_AGE_SECONDS ?? "0");
   const resolvedMaxAgeSeconds =

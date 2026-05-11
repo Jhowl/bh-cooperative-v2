@@ -4,7 +4,9 @@ import { getPublicOrigin } from "../../../../lib/request-url";
 
 export async function POST(request: NextRequest) {
   const origin = getPublicOrigin(request);
-  const response = NextResponse.redirect(new URL("/admin/login", origin));
+  const response = NextResponse.redirect(new URL("/admin/login", origin), {
+    status: 303,
+  });
   response.cookies.set(ADMIN_SESSION_COOKIE, "", {
     httpOnly: true,
     sameSite: "lax",
